@@ -7,7 +7,6 @@ const ProtectedRoutes = () => {
     queryKey: ["validate-user"],
     queryFn: async () => {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/validate`, {
-        credentials: "include",
         cache: "no-cache",
       });
       if (!response.ok) {

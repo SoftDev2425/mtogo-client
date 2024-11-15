@@ -7,7 +7,6 @@ import { CiLocationOn } from "react-icons/ci";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import EaseInEaseOut from "@/components/framer_transitions/EaseInEaseOut";
-import SlideInWithFade from "@/components/framer_transitions/SlideInWithFade";
 
 const Home = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
