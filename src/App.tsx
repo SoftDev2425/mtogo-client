@@ -6,6 +6,7 @@ import Layout from "./pages/Layout";
 import PublicRoutes from "./PublicRoutes";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./pages/Dashboard";
+import SignIn from "./pages/SignIn";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route element={<PublicRoutes />}>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="*" element={<NotFound />} />
         </Route>

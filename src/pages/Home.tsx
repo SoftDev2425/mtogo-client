@@ -7,6 +7,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import EaseInEaseOut from "@/components/framer_transitions/EaseInEaseOut";
+import { Reveal } from "@/components/framer_transitions/Reveal";
 
 const Home = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -90,7 +91,7 @@ const Home = () => {
   };
 
   return (
-    <EaseInEaseOut>
+    <>
       <div
         className="h-[650px]"
         style={{
@@ -104,26 +105,30 @@ const Home = () => {
             <h1 className="text-4xl font-bold text-[#333] mb-2">Order food and more</h1>
             <h2 className="text-xl text-[#666] mb-4">Restaurants delivering near you</h2>
             <div className="relative w-full">
-              <Input
-                type="text"
-                placeholder="Full address"
-                className="h-[56px] rounded-full w-full px-4 pr-[100px] placeholder:font-light border-[1px] border-gray-300 bg-white focus:bg-blue-50 hover:bg-blue-50"
-                onChange={(e) => handleAddressSearch(e.target.value)}
-                onFocus={(e) => {
-                  setIsInputFocused(true);
-                  handleAddressSearch(e.target.value);
-                }}
-                onBlur={handleBlur}
-                onKeyDown={handleKeyDown}
-              />
-              {!isInputFocused && (
-                <Button
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-[48px] bg-[#FF8001] text-white font-bold rounded-full px-4"
-                  onClick={() => setIsInputFocused(true)}
-                >
-                  Search
-                </Button>
-              )}
+              <Reveal width="100%" delay={0.5}>
+                <>
+                  <Input
+                    type="text"
+                    placeholder="Full address"
+                    className="h-[56px] rounded-full w-full px-4 pr-[100px] placeholder:font-light border-[1px] border-gray-300 bg-white focus:bg-blue-50 hover:bg-blue-50"
+                    onChange={(e) => handleAddressSearch(e.target.value)}
+                    onFocus={(e) => {
+                      setIsInputFocused(true);
+                      handleAddressSearch(e.target.value);
+                    }}
+                    onBlur={handleBlur}
+                    onKeyDown={handleKeyDown}
+                  />
+                  {!isInputFocused && (
+                    <Button
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 h-[48px] bg-[#FF8001] text-white font-bold rounded-full px-4"
+                      onClick={() => setIsInputFocused(true)}
+                    >
+                      Search
+                    </Button>
+                  )}
+                </>
+              </Reveal>
               {!loading && suggestions.length > 0 && (
                 <div
                   className="absolute w-full mt-2 bg-white shadow-md rounded-xl border p-2 h-[300px] overflow-y-auto"
@@ -174,11 +179,13 @@ const Home = () => {
               </span>
             </p>
 
-            <img
-              src={"/falafel_salad_home.png"}
-              alt="food"
-              className="rounded-lg w-[300px] lg:w-[500px] xl:w-[600px]"
-            />
+            <Reveal>
+              <img
+                src={"/falafel_salad_home.png"}
+                alt="food"
+                className="rounded-lg w-[300px] lg:w-[500px] xl:w-[600px]"
+              />
+            </Reveal>
 
             <div className="flex items-center gap-2">
               <SiIfood size={40} color="white" />
@@ -187,7 +194,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </EaseInEaseOut>
+    </>
   );
 };
 
