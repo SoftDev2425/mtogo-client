@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { CiLocationOn } from "react-icons/ci";
+import { DotLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -13,6 +15,7 @@ const Home = () => {
   const [selectedAddress, setSelectedAddress] = useState<any | null>(null);
   const suggestionsRef = useRef<HTMLDivElement | null>(null);
   const addressRef = useRef<string>("");
+  const navigate = useNavigate();
 
   const handleAddressSearch = async (text: string) => {
     if (text.trim() === "") {
@@ -42,6 +45,8 @@ const Home = () => {
     addressRef.current = address.tekst;
     setSuggestions([]);
     setIsInputFocused(false);
+    // navigate to restaurants page with the selected address zipcode
+    navigate(`/restaurants/${address.data.postnummer.nr}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -102,10 +107,12 @@ const Home = () => {
               placeholder="Full address"
               className="h-[56px] rounded-full w-full px-4 pr-[100px] placeholder:font-light border-[1px] border-gray-300 bg-white focus:bg-blue-50 hover:bg-blue-50"
               onChange={(e) => handleAddressSearch(e.target.value)}
-              onFocus={() => setIsInputFocused(true)}
+              onFocus={(e) => {
+                setIsInputFocused(true);
+                handleAddressSearch(e.target.value);
+              }}
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
-              value={addressRef.current}
             />
             {!isInputFocused && (
               <Button
@@ -136,8 +143,11 @@ const Home = () => {
               </div>
             )}
             {loading && (
-              <div className="absolute w-full mt-2 bg-white shadow-md rounded-lg border">
-                <p className="p-2 text-gray-500">Loading...</p>
+              <div className="absolute w-full mt-2 bg-white shadow-md rounded-xl border">
+                <p className="p-2 text-gray-500">
+                  Loading... <br />
+                  <DotLoader color="#FF8001" size={30} />
+                </p>
               </div>
             )}
           </div>
