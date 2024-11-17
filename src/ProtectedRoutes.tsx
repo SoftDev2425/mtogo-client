@@ -7,9 +7,7 @@ const ProtectedRoutes = () => {
 
   if (isPending) return <Loading />;
 
-  if (error) return <Navigate to="/signin" />;
-
-  if (!data || !data.validateUser) return <Navigate to="/signin" />;
+  if (error || !data?.validateUser) return <Navigate to="/signin" />;
 
   return <Outlet />;
 };

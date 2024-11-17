@@ -8,36 +8,33 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./pages/Dashboard";
 import SignIn from "./pages/SignIn";
 import CustomerSignUp from "./pages/CustomerSignUp";
+import CustomerProfile from "./pages/CustomerProfile";
 
 function App() {
   return (
     <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/restaurants" element={<Restaurants />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+
       <Route element={<PublicRoutes />}>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+        <Route element={<Layout />}>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<CustomerSignUp />} />
-          <Route path="/restaurants" element={<Restaurants />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Route>
 
       <Route element={<ProtectedRoutes />}>
         <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {/*<Route path="/invoices" element={<Invoices />} />
-          <Route path="/invoice/:id" element={<ViewInvoice />} />
-          <Route path="/createinvoice" element={<CreateInvoice />} />
-          <Route path="/creditnotes" element={<CreditNote />} />
-          <Route path="/creditnote/:id" element={<ViewCreditNote />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/tutorials" element={<Tutorials />} />
-          <Route path="/blogs" element={<Blogs />} /> */}
+          <Route path="/profile" element={<CustomerProfile />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Route>
-
-      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

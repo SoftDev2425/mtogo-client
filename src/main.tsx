@@ -15,7 +15,21 @@ createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <HelmetProvider>
           <App />
-          <Toaster className="bg-white"/>
+          <Toaster
+            position="bottom-center"
+            pauseWhenPageIsHidden
+            closeButton
+            toastOptions={{
+              classNames: {
+                toast: "bg-[#FF8001]",
+                title: "text-white",
+                description: "text-white",
+                actionButton: "bg-zinc-400",
+                cancelButton: "bg-orange-400",
+                closeButton: "bg-lime-400",
+              },
+            }}
+          />
         </HelmetProvider>
       </BrowserRouter>
     </QueryClientProvider>

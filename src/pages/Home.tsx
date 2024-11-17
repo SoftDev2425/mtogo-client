@@ -6,7 +6,6 @@ import axios from "axios";
 import { CiLocationOn } from "react-icons/ci";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import EaseInEaseOut from "@/components/framer_transitions/EaseInEaseOut";
 import { Reveal } from "@/components/framer_transitions/Reveal";
 
 const Home = () => {

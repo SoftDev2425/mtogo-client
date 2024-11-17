@@ -2,7 +2,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ZodError } from "zod";
 import { Helmet } from "react-helmet-async";
-import { signInSchema } from "../validations/signInSchema";
 import { toast } from "sonner";
 import { Heading } from "@/components/Heading";
 import { InputField } from "@/components/InputField";
@@ -11,11 +10,12 @@ import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { BarLoader } from "react-spinners";
 import PasswordInputField from "@/components/PasswordInputField";
+import { customerSchema } from "@/validations/customerSchema";
 
 const CustomerSignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [tcAgreed, settcAgreed] = useState(false);
   const [password, setPassword] = useState("");
@@ -25,12 +25,18 @@ const CustomerSignUp = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login/customer`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register/customer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, rememberMe }),
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          phone,
+          email,
+          password,
+        }),
         cache: "no-cache",
       });
       if (!response.ok) {
@@ -52,7 +58,15 @@ const CustomerSignUp = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      signInSchema.parse({ email, password, rememberMe });
+      customerSchema.parse({
+        firstName,
+        lastName,
+        phone,
+        email,
+        password,
+        confirmPassword,
+        tcAgreed,
+      });
 
       mutate();
     } catch (error) {
@@ -88,6 +102,8 @@ const CustomerSignUp = () => {
                   fullWidth="full"
                   name="first_name"
                   className="py-[12px] px-[16px] rounded-xl"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  value={firstName}
                 />
               </div>
 
@@ -102,6 +118,8 @@ const CustomerSignUp = () => {
                   fullWidth="full"
                   name="first_name"
                   className="py-[12px] px-[16px] rounded-xl"
+                  onChange={(e) => setLastName(e.target.value)}
+                  value={lastName}
                 />
               </div>
 
@@ -116,6 +134,8 @@ const CustomerSignUp = () => {
                   fullWidth="full"
                   name="first_name"
                   className="py-[12px] px-[16px] rounded-xl"
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={phone}
                 />
               </div>
 
@@ -151,8 +171,8 @@ const CustomerSignUp = () => {
                     password={password}
                   />
                   <p className="text-[10px] leading-normal text-gray-400 select-none mx-1">
-                    Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase
-                    letter, and one number
+                    Password must contain at least one uppercase letter, one lowercase letter, one number, and one
+                    special character (!, @, #, $, %, ^, &, *, -, +, =)
                   </p>
                 </div>
               </div>

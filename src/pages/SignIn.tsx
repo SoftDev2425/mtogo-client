@@ -26,6 +26,7 @@ const SignIn = () => {
         },
         body: JSON.stringify({ email, password, rememberMe }),
         cache: "no-cache",
+        credentials: "include",
       });
       if (!response.ok) {
         throw new Error("User is not authenticated");
@@ -33,12 +34,10 @@ const SignIn = () => {
       return response.json();
     },
     onSuccess: (data) => {
-      console.log(data);
-      // Handle successful authentication here, e.g., navigate to the home page
-      navigate("/");
+      toast.success(data.message);
+      navigate("/profile");
     },
     onError: (error) => {
-      // Handle errors here, e.g., show a toast notification
       toast.error(error.message);
     },
   });

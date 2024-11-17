@@ -5,14 +5,27 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { TfiHelpAlt } from "react-icons/tfi";
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { LuHeartHandshake } from "react-icons/lu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdRestaurant } from "react-icons/io";
+import useValidateUser from "@/hooks/useValidateUser";
 
 const Header = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const { data: userData, isLoading, isError, refetch } = useValidateUser();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  const isAuthenticated = !isLoading && !isError && userData?.validateUser;
+
+  const handleSignOut = async () => {
+    console.log("SIGNING OUT");
+  };
+
   return (
-    <div className="w-full h-[70px] flex items-center justify-between px-5 shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)]">
+    <div className="w-full h-[70px] flex items-center justify-between px-5 shadow-xl">
       {/* LOGO */}
       <div className="flex items-center gap-2">
         <SiIfood size={30} color="#FF8001" />
@@ -20,6 +33,7 @@ const Header = () => {
           MTOGO
         </Link>
       </div>
+
       <div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger>
@@ -31,21 +45,45 @@ const Header = () => {
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold">My account</DialogTitle>
 
-              {/* sign in and create account buttons */}
+              {/* Conditionally render buttons based on authentication status */}
               <div className="w-full flex items-center justify-around">
-                <Link
-                  to="/signin"
-                  onClick={() => setIsDialogOpen(false)}
-                  className="text-lg font-semibold text-gray-800 hover:text-gray-900 py-[5px] px-[16px] bg-[#f5f3f1] hover:bg-gray-200 w-[268px] h-[40px] text-center rounded-full"
-                >
-                  Sign in
-                </Link>
-                <Link
-                  to="/signup"
-                  className="text-lg font-semibold py-[5px] px-[16px] bg-[#FF8001] w-[268px] h-[40px] text-center rounded-full text-white"
-                >
-                  Create account
-                </Link>
+                {isAuthenticated ? (
+                  <>
+                    <Link
+                      to="/profile"
+                      onClick={() => setIsDialogOpen(false)}
+                      className="text-lg font-semibold py-[5px] px-[16px] bg-[#FF8001] w-[268px] h-[40px] text-center rounded-full text-white"
+                    >
+                      My Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleSignOut();
+                        setIsDialogOpen(false);
+                      }}
+                      className="text-lg font-semibold text-gray-800 hover:text-gray-900 py-[5px] px-[16px] bg-[#f5f3f1] hover:bg-gray-200 w-[268px] h-[40px] text-center rounded-full"
+                    >
+                      Sign out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/signin"
+                      onClick={() => setIsDialogOpen(false)}
+                      className="text-lg font-semibold text-gray-800 hover:text-gray-900 py-[5px] px-[16px] bg-[#f5f3f1] hover:bg-gray-200 w-[268px] h-[40px] text-center rounded-full"
+                    >
+                      Sign in
+                    </Link>
+                    <Link
+                      to="/signup"
+                      onClick={() => setIsDialogOpen(false)}
+                      className="text-lg font-semibold py-[5px] px-[16px] bg-[#FF8001] w-[268px] h-[40px] text-center rounded-full text-white"
+                    >
+                      Create account
+                    </Link>
+                  </>
+                )}
               </div>
             </DialogHeader>
 
@@ -65,7 +103,7 @@ const Header = () => {
               <hr className="border-gray-200" />
 
               {/* BECOME A DELIVERY AGENT */}
-              <div className="flex gap-2 items-center  border-gray-200 py-3 hover:bg-gray-50 px-4 cursor-pointer my-2">
+              <div className="flex gap-2 items-center border-gray-200 py-3 hover:bg-gray-50 px-4 cursor-pointer my-2">
                 <MdOutlineDeliveryDining />
                 <p className="text-md font-light">Become a delivery agent</p>
               </div>
