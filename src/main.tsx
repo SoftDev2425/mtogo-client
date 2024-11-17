@@ -15,7 +15,7 @@ createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <HelmetProvider>
           <App />
-          <Toaster />
+          <Toaster className="bg-white"/>
         </HelmetProvider>
       </BrowserRouter>
     </QueryClientProvider>

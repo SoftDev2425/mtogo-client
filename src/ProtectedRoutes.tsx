@@ -1,24 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import Loading from "./components/Loading";
+import useValidateUser from "./hooks/useValidateUser";
 
 const ProtectedRoutes = () => {
-  const { isPending, error, data } = useQuery({
-    queryKey: ["validate-user"],
-    queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/validate`, {
-        cache: "no-cache",
-      });
-      if (!response.ok) {
-        throw new Error("User is not authenticated");
-      }
-      return response.json();
-    },
-  });
-
-  if (error) return <Navigate to="/signin" />;
+  const { isPending, error, data } = useValidateUser();
 
   if (isPending) return <Loading />;
+
+  if (error) return <Navigate to="/signin" />;
 
   if (!data || !data.validateUser) return <Navigate to="/signin" />;
 

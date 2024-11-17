@@ -7,6 +7,7 @@ import PublicRoutes from "./PublicRoutes";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./pages/Dashboard";
 import SignIn from "./pages/SignIn";
+import CustomerSignUp from "./pages/CustomerSignUp";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<CustomerSignUp />} />
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="*" element={<NotFound />} />
         </Route>
@@ -22,7 +24,7 @@ function App() {
 
       <Route element={<ProtectedRoutes />}>
         <Route element={<Layout />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           {/*<Route path="/invoices" element={<Invoices />} />
           <Route path="/invoice/:id" element={<ViewInvoice />} />
           <Route path="/createinvoice" element={<CreateInvoice />} />

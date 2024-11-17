@@ -17,6 +17,7 @@ const inputField = cva(
     "py-2",
     "disabled:text-gray-500",
     "disabled:bg-gray-100",
+    "placeholder:font-light",
   ],
   {
     variants: {
