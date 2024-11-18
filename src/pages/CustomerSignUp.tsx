@@ -25,7 +25,7 @@ const CustomerSignUp = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register/customer`, {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_GATEWAY_URL}/api/auth/register/customer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -6,7 +6,7 @@ const useValidateUser = () => {
   return useQuery({
     queryKey: ["validateUser"],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/validate`, {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_GATEWAY_URL}/api/auth/validate`, {
         method: "GET",
         cache: "no-cache",
         credentials: "include",
