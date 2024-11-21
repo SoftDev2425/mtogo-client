@@ -42,6 +42,7 @@ const Home = () => {
   };
 
   const handleAddressSelection = (address: any) => {
+    console.log(selectedAddress); // remove
     setSelectedAddress(address);
     addressRef.current = address.tekst;
     setSuggestions([]);
